@@ -511,6 +511,58 @@
   line-height: 1.5;
 }
 
+.expert-disclaimer--main {
+  font-size: 0.9rem;
+  padding: 16px 20px;
+  margin-bottom: 24px;
+}
+
+/* Upsell-Block für Basic-Profile */
+.expert-upsell {
+  text-align: center;
+  padding: 48px 32px;
+  border: 1px solid var(--dsc-color-border);
+  border-radius: var(--dsc-radius);
+  background: var(--dsc-color-bg-light, #fafafa);
+}
+
+.expert-upsell__icon {
+  font-size: 2rem;
+  margin-bottom: 12px;
+}
+
+.expert-upsell__title {
+  font-family: var(--dsc-font-serif);
+  font-size: 1.3rem;
+  color: var(--dsc-color-navy);
+  margin: 0 0 12px;
+}
+
+.expert-upsell__text {
+  font-size: 0.95rem;
+  color: var(--dsc-color-text-light);
+  max-width: 480px;
+  margin: 0 auto 24px;
+  line-height: 1.6;
+}
+
+.expert-upsell__cta {
+  display: inline-block;
+  background: var(--dsc-color-accent);
+  color: var(--dsc-color-navy);
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 12px 28px;
+  border-radius: var(--dsc-radius-pill);
+  text-decoration: none;
+  transition: opacity 0.15s;
+}
+
+.expert-upsell__cta:hover {
+  opacity: 0.85;
+  text-decoration: none;
+}
+
 /* Related */
 .expert .expert-related {
   background: var(--expert-white);

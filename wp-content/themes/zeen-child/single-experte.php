@@ -313,6 +313,18 @@ $allowed_iframe = array(
 
   <section class="expert-body">
     <div class="expert-main">
+      <?php if (!$is_premium) : ?>
+        <div class="expert-disclaimer expert-disclaimer--main">
+          <strong>Hinweis:</strong> Dieses Profil basiert auf öffentlich zugänglichen Informationen. Kontaktdaten, Biografie, Schwerpunkte und weitere Details sind nur für verifizierte Premium-Profile sichtbar.
+        </div>
+        <div class="expert-upsell">
+          <div class="expert-upsell__icon">🔒</div>
+          <h2 class="expert-upsell__title">Premium-Inhalte nicht verfügbar</h2>
+          <p class="expert-upsell__text">Dieses Profil wurde noch nicht vom Inhaber beansprucht. Sind Sie dieser Arzt? Erweitern Sie Ihr Profil und zeigen Sie Patienten, wofür Sie stehen.</p>
+          <a class="expert-upsell__cta" href="/profil-erweitern">Profil jetzt erweitern</a>
+        </div>
+      <?php endif; ?>
+
       <?php if ($is_premium && $kurzbiografie) : ?>
         <section class="expert-section expert-section--bio">
           <h2 class="expert-section__title">Kurzbiografie</h2>
@@ -545,7 +557,11 @@ $allowed_iframe = array(
       <?php endif; ?>
 
       <div class="expert-disclaimer">
-        <strong>Hinweis:</strong> Dieses Profil basiert auf öffentlich zugänglichen Informationen und Angaben des Arztes. Die Darstellung auf Der Schönheitschirurg stellt keine Empfehlung oder medizinische Bewertung dar und ersetzt keine ärztliche Beratung.
+        <?php if ($is_premium) : ?>
+          <strong>Hinweis:</strong> Dieses Profil basiert auf Angaben des Arztes. Die Darstellung auf Der Schönheitschirurg stellt keine Empfehlung oder medizinische Bewertung dar und ersetzt keine ärztliche Beratung.
+        <?php else : ?>
+          <strong>Hinweis:</strong> Dieses Profil basiert auf öffentlich zugänglichen Informationen. Der Inhaber dieses Profils wurde noch nicht verifiziert.
+        <?php endif; ?>
       </div>
     </aside>
   </section>
