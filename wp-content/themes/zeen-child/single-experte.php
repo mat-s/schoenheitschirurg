@@ -40,6 +40,10 @@ $galerie = $is_premium ? get_field('galerie', $post_id) : array();
 $faq = $is_premium ? get_field('faq', $post_id) : array();
 $video_beratung = $is_premium ? get_field('video_beratung', $post_id) : false;
 $google_maps_embed = $is_premium ? get_field('google_maps_embed', $post_id) : '';
+$google_score = $is_premium ? get_field('google_score', $post_id) : '';
+$google_reviews_anzahl = $is_premium ? get_field('google_reviews_anzahl', $post_id) : '';
+$behandlungspreise = $is_premium ? get_field('behandlungspreise', $post_id) : array();
+$fremdsprachen = $is_premium ? get_field('fremdsprachen', $post_id) : array();
 
 $stadt_terms = get_the_terms($post_id, 'stadt');
 $eingriff_terms = get_the_terms($post_id, 'eingriff');
@@ -362,6 +366,60 @@ $allowed_iframe = array(
                 </div>
               <?php endif; ?>
             <?php endforeach; ?>
+          </div>
+        </section>
+      <?php endif; ?>
+
+      <?php if ($is_premium && $google_score) : ?>
+        <section class="expert-section expert-section--ratings">
+          <h2 class="expert-section__title">Bewertungen</h2>
+          <div class="expert-section__content">
+            <div class="expert-rating">
+              <span class="expert-rating__stars" aria-hidden="true">★★★★★</span>
+              <span class="expert-rating__score"><?php echo esc_html(number_format((float) $google_score, 1)); ?></span>
+              <?php if ($google_reviews_anzahl) : ?>
+                <span class="expert-rating__count">· <?php echo esc_html($google_reviews_anzahl); ?> Bewertungen auf Google</span>
+              <?php endif; ?>
+            </div>
+          </div>
+        </section>
+      <?php endif; ?>
+
+      <?php if ($is_premium && is_array($behandlungspreise) && !empty($behandlungspreise)) : ?>
+        <section class="expert-section expert-section--prices">
+          <h2 class="expert-section__title">Behandlungspreise</h2>
+          <div class="expert-section__content">
+            <ul class="expert-prices">
+              <?php foreach ($behandlungspreise as $item) : ?>
+                <?php
+                $behandlung = isset($item['behandlung']) ? $item['behandlung'] : '';
+                $preisspanne = isset($item['preisspanne']) ? $item['preisspanne'] : '';
+                ?>
+                <?php if ($behandlung || $preisspanne) : ?>
+                  <li class="expert-prices__item">
+                    <?php if ($behandlung) : ?>
+                      <span class="expert-prices__name"><?php echo esc_html($behandlung); ?></span>
+                    <?php endif; ?>
+                    <?php if ($preisspanne) : ?>
+                      <span class="expert-prices__range"><?php echo esc_html($preisspanne); ?></span>
+                    <?php endif; ?>
+                  </li>
+                <?php endif; ?>
+              <?php endforeach; ?>
+            </ul>
+          </div>
+        </section>
+      <?php endif; ?>
+
+      <?php if ($is_premium && is_array($fremdsprachen) && !empty($fremdsprachen)) : ?>
+        <section class="expert-section expert-section--languages">
+          <h2 class="expert-section__title">Sprachen</h2>
+          <div class="expert-section__content">
+            <div class="expert-languages">
+              <?php foreach ($fremdsprachen as $lang) : ?>
+                <span class="expert-languages__tag"><?php echo esc_html($lang); ?></span>
+              <?php endforeach; ?>
+            </div>
           </div>
         </section>
       <?php endif; ?>
