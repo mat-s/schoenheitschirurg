@@ -364,7 +364,8 @@ $avatar_placeholder_url = zeen_child_experte_placeholder_url( 'expert-avatar-pla
 													break;
 												}
 												$tag_count++;
-												echo '<span class="experte-card__tag">' . esc_html( $term->name ) . '</span>';
+												$term_link = get_term_link( $term, 'eingriff' );
+											echo '<a href="' . esc_url( $term_link ) . '" class="experte-card__tag" onclick="event.stopPropagation()">' . esc_html( $term->name ) . '</a>';
 											}
 										}
 										?>

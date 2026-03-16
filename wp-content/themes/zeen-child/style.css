@@ -873,6 +873,14 @@
   background: var(--dsc-archive-tag-bg);
   color: #6b6b6b;
   font-weight: 500;
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s;
+}
+
+.experte-card__tag:hover {
+  background: var(--dsc-color-accent);
+  color: var(--dsc-color-navy);
+  text-decoration: none;
 }
 
 .experte-card__claim-cta {
