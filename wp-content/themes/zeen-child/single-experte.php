@@ -226,7 +226,7 @@ $allowed_iframe = array(
 ?>
 
 <main id="primary" class="expert">
-  <nav class="expert-breadcrumb" aria-label="Breadcrumb">
+  <nav class="expert-breadcrumb tipi-row" aria-label="Breadcrumb">
     <a class="expert-breadcrumb__link" href="<?php echo esc_url(home_url('/')); ?>">Startseite</a>
     <span class="expert-breadcrumb__separator">&gt;</span>
     <a class="expert-breadcrumb__link" href="<?php echo esc_url(get_post_type_archive_link('experte')); ?>">Experten</a>

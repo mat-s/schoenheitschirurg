@@ -61,7 +61,7 @@
 }
 
 .expert .expert-breadcrumb {
-  max-width: 1180px;
+  max-width: 1055px;
   margin: 0 auto;
   padding: 14px 20px;
   font-size: 12px;
@@ -83,6 +83,30 @@
 }
 .expert .expert-breadcrumb__current {
   color: var(--expert-text);
+}
+.expert-archive-page .expert-breadcrumb {
+  max-width: 1055px;
+  margin: 0 auto;
+  padding: 14px 20px;
+  font-size: 12px;
+  color: var(--dsc-color-text-light);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+.expert-archive-page .expert-breadcrumb__link {
+  color: var(--dsc-color-accent);
+  text-decoration: none;
+}
+.expert-archive-page .expert-breadcrumb__link:hover {
+  text-decoration: underline;
+}
+.expert-archive-page .expert-breadcrumb__separator {
+  color: #CBD5E0;
+}
+.expert-archive-page .expert-breadcrumb__current {
+  color: var(--dsc-color-text);
 }
 
 /* Hero */
@@ -606,6 +630,9 @@
   .expert .expert-breadcrumb {
     padding: 12px 14px;
   }
+  .expert-archive-page .expert-breadcrumb {
+    padding: 12px 14px;
+  }
   .expert .expert-hero__inner,
   .expert .expert-body,
   .expert .expert-related__inner {
@@ -626,6 +653,7 @@
 }
 
 /* === Experten Archiv Karten === */
+
 .experte-archive__meta {
   margin-bottom: 18px;
 }
@@ -639,6 +667,26 @@
 
 .experte-archive__count strong {
   font-weight: 700;
+}
+
+.experte-archive__filters {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.experte-archive__filter-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.experte-archive__filter-label {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--dsc-color-text);
 }
 
 .experte-archive__tag-nav {
@@ -657,6 +705,11 @@
 }
 
 .experte-archive__tag-link:hover {
+  text-decoration: underline;
+}
+
+.experte-archive__tag-link--active {
+  font-weight: 700;
   text-decoration: underline;
 }
 
@@ -886,6 +939,14 @@
   .experte-archive__grid {
     grid-template-columns: 1fr;
     gap: 16px;
+  }
+
+  .experte-archive__filter-group {
+    display: block;
+  }
+
+  .experte-archive__filter-label {
+    margin-bottom: 6px;
   }
 
   .experte-card__content {

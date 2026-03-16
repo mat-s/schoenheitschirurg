@@ -1,11 +1,13 @@
+name: schoenheitschirurg
+
 services:
   wordpress:
     image: wordpress:6.8.2-php8.2-apache
     platform: linux/amd64
-    container_name: wp_site
+    container_name: sc_wp_site
     restart: unless-stopped
     ports:
-      - "8080:80"
+      - "8084:80"
     environment:
       WORDPRESS_DB_HOST: db
       WORDPRESS_DB_USER: wordpress
@@ -39,10 +41,10 @@ services:
       MYSQL_ROOT_PASSWORD: rootpassword123
       MYSQL_ALLOW_EMPTY_PASSWORD: 'false'
     volumes:
-      - medizintechnik_db_data:/var/lib/mysql
+      - sc_db_data:/var/lib/mysql
       - ./mysql-init:/docker-entrypoint-initdb.d
     ports:
-      - "3306:3306"
+      - "3308:3306"
     networks:
       - wordpress-network
     command: '--default-authentication-plugin=mysql_native_password'
@@ -50,10 +52,10 @@ services:
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:latest
     platform: linux/amd64
-    container_name: wp_phpmyadmin
+    container_name: sc_wp_phpmyadmin
     restart: unless-stopped
     ports:
-      - "8081:80"
+      - "8085:80"
     environment:
       PMA_HOST: db
       PMA_USER: root
@@ -83,7 +85,7 @@ services:
       - wordpress-network
 
 volumes:
-  medizintechnik_db_data:
+  sc_db_data:
 
 networks:
   wordpress-network:

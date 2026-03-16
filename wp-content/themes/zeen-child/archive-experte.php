@@ -47,6 +47,48 @@ if ( is_tax( $supported_taxonomies ) ) {
 
 $archive_title = $queried_term ? single_term_title( '', false ) : post_type_archive_title( '', false );
 $archive_desc  = get_the_archive_description();
+$archive_link  = get_post_type_archive_link( 'experte' );
+
+if ( ! $archive_link ) {
+	$archive_link = home_url( '/' );
+}
+
+/**
+ * Render archive filter term links.
+ *
+ * @param array       $terms        Terms to render.
+ * @param string      $label        Visible filter label.
+ * @param string      $aria_label   Nav aria label.
+ * @param WP_Term|null $queried_term Currently queried taxonomy term.
+ */
+function zeen_child_render_experte_filter_links( $terms, $label, $aria_label, $queried_term = null ) {
+	if ( is_wp_error( $terms ) || empty( $terms ) ) {
+		return;
+	}
+
+	echo '<div class="experte-archive__filter-group">';
+	echo '<p class="experte-archive__filter-label">' . esc_html( $label ) . '</p>';
+	echo '<nav class="experte-archive__tag-nav" aria-label="' . esc_attr( $aria_label ) . '">';
+	foreach ( $terms as $term ) {
+		$term_link = get_term_link( $term );
+		if ( is_wp_error( $term_link ) ) {
+			continue;
+		}
+
+		$active_class = '';
+		if (
+			$queried_term instanceof WP_Term &&
+			$queried_term->taxonomy === $term->taxonomy &&
+			(int) $queried_term->term_id === (int) $term->term_id
+		) {
+			$active_class = ' experte-archive__tag-link--active';
+		}
+
+		echo '<a class="experte-archive__tag-link' . esc_attr( $active_class ) . '" href="' . esc_url( $term_link ) . '">' . esc_html( $term->name ) . '</a>';
+	}
+	echo '</nav>';
+	echo '</div>';
+}
 
 /**
  * Get placeholder image URL if file exists.
@@ -75,7 +117,7 @@ function zeen_child_experte_avatar_placeholder() {
 
 $avatar_placeholder_url = zeen_child_experte_placeholder_url( 'expert-avatar-placeholder.png' );
 ?>
-<div id="primary" class="content-area">
+<div id="primary" class="content-area expert-archive-page">
 	<?php
 	$contents_classes = 'contents-wrap standard-archive';
 	if ( $sidebar_check ) {
@@ -89,6 +131,15 @@ $avatar_placeholder_url = zeen_child_experte_placeholder_url( 'expert-avatar-pla
 	$contents_classes .= ' clearfix';
 	echo '<div id="contents-wrap" class="' . esc_attr( $contents_classes ) . '">';
 	?>
+		<nav class="expert-breadcrumb tipi-row" aria-label="<?php esc_attr_e( 'Breadcrumb', 'zeen-child' ); ?>">
+			<a class="expert-breadcrumb__link" href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php esc_html_e( 'Startseite', 'zeen-child' ); ?></a>
+			<span class="expert-breadcrumb__separator">&gt;</span>
+			<a class="expert-breadcrumb__link" href="<?php echo esc_url( $archive_link ); ?>"><?php esc_html_e( 'Experten', 'zeen-child' ); ?></a>
+			<?php if ( $queried_term ) : ?>
+				<span class="expert-breadcrumb__separator">&gt;</span>
+				<span class="expert-breadcrumb__current"><?php echo esc_html( $queried_term->name ); ?></span>
+			<?php endif; ?>
+		</nav>
 		<?php
 		if ( empty( $sidebar_check ) && ( $archive_title || $archive_desc ) ) {
 			echo '<header class="archive-header">';
@@ -183,6 +234,22 @@ $avatar_placeholder_url = zeen_child_experte_placeholder_url( 'expert-avatar-pla
 						'order'      => 'ASC',
 					)
 				);
+				$stadt_filter_terms = get_terms(
+					array(
+						'taxonomy'   => 'stadt',
+						'hide_empty' => true,
+						'orderby'    => 'name',
+						'order'      => 'ASC',
+					)
+				);
+				$anbieter_typ_filter_terms = get_terms(
+					array(
+						'taxonomy'   => 'anbieter-typ',
+						'hide_empty' => true,
+						'orderby'    => 'name',
+						'order'      => 'ASC',
+					)
+				);
 
 				echo '<div class="experte-archive__meta">';
 				printf(
@@ -191,17 +258,26 @@ $avatar_placeholder_url = zeen_child_experte_placeholder_url( 'expert-avatar-pla
 					esc_html__( 'Experten gefunden', 'zeen-child' )
 				);
 
-				if ( ! is_wp_error( $eingriff_filter_terms ) && ! empty( $eingriff_filter_terms ) ) {
-					echo '<nav class="experte-archive__tag-nav" aria-label="' . esc_attr__( 'Eingriff Filter', 'zeen-child' ) . '">';
-					foreach ( $eingriff_filter_terms as $eingriff_filter_term ) {
-						$term_link = get_term_link( $eingriff_filter_term );
-						if ( is_wp_error( $term_link ) ) {
-							continue;
-						}
-						echo '<a class="experte-archive__tag-link" href="' . esc_url( $term_link ) . '">' . esc_html( $eingriff_filter_term->name ) . '</a>';
-					}
-					echo '</nav>';
-				}
+				echo '<div class="experte-archive__filters">';
+				zeen_child_render_experte_filter_links(
+					$eingriff_filter_terms,
+					__( 'Behandlungsmethoden', 'zeen-child' ),
+					__( 'Behandlungsmethoden Filter', 'zeen-child' ),
+					$queried_term
+				);
+				zeen_child_render_experte_filter_links(
+					$stadt_filter_terms,
+					__( 'Städte', 'zeen-child' ),
+					__( 'Städte Filter', 'zeen-child' ),
+					$queried_term
+				);
+				zeen_child_render_experte_filter_links(
+					$anbieter_typ_filter_terms,
+					__( 'Anbieter-Typen', 'zeen-child' ),
+					__( 'Anbieter-Typen Filter', 'zeen-child' ),
+					$queried_term
+				);
+				echo '</div>';
 				echo '</div>';
 
 				if ( $experte_query->have_posts() ) :
