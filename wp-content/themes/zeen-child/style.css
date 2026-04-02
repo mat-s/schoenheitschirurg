@@ -915,6 +915,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
+  padding: 12px 16px;
 }
 
 .experte-card__tag {

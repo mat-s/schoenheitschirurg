@@ -11,7 +11,10 @@ $post_id = get_the_ID();
 $titel_name = get_field('titel_name', $post_id);
 $facharzttitel = get_field('facharzttitel', $post_id);
 $praxis_name = get_field('praxis_name', $post_id);
-$adresse = get_field('adresse', $post_id);
+$strasse = get_field('strasse', $post_id);
+$plz     = get_field('plz', $post_id);
+$ort     = get_field('ort', $post_id);
+$adresse = trim(implode(', ', array_filter([$strasse, trim("$plz $ort")])));
 $profilbild_id = get_field('profilbild', $post_id);
 $berufserfahrung_seit = get_field('berufserfahrung_seit', $post_id);
 $claim_status = get_field('claim_status', $post_id);
@@ -108,7 +111,10 @@ function expert_build_jsonld()
   $titel_name_local = get_field('titel_name', $post_id_local);
   $facharzttitel_local = get_field('facharzttitel', $post_id_local);
   $website_local = get_field('website', $post_id_local);
-  $adresse_local = get_field('adresse', $post_id_local);
+  $strasse_local = get_field('strasse', $post_id_local);
+  $plz_local     = get_field('plz', $post_id_local);
+  $ort_local     = get_field('ort', $post_id_local);
+  $adresse_local = trim(implode(', ', array_filter([$strasse_local, trim("$plz_local $ort_local")])));
   $profilbild_id_local = get_field('profilbild', $post_id_local);
   $mitgliedschaften_local = get_field('mitgliedschaften', $post_id_local);
 
@@ -305,7 +311,7 @@ $allowed_iframe = array(
             <a class="expert-hero__action expert-hero__action--secondary" href="<?php echo esc_url($website_href); ?>" target="_blank" rel="noopener">Zur Website</a>
           <?php endif; ?>
         <?php else : ?>
-          <a class="expert-hero__action expert-hero__action--primary" href="#">Profil erweitern</a>
+          <a class="expert-hero__action expert-hero__action--primary" href="<?php echo esc_url( zeen_child_get_claim_url() ); ?>">Profil erweitern</a>
         <?php endif; ?>
       </div>
     </div>
@@ -321,7 +327,7 @@ $allowed_iframe = array(
           <div class="expert-upsell__icon">🔒</div>
           <h2 class="expert-upsell__title">Premium-Inhalte nicht verfügbar</h2>
           <p class="expert-upsell__text">Dieses Profil wurde noch nicht vom Inhaber beansprucht. Sind Sie dieser Arzt? Erweitern Sie Ihr Profil und zeigen Sie Patienten, wofür Sie stehen.</p>
-          <a class="expert-upsell__cta" href="/profil-erweitern">Profil jetzt erweitern</a>
+          <a class="expert-upsell__cta" href="<?php echo esc_url( zeen_child_get_claim_url() ); ?>">Profil jetzt erweitern</a>
         </div>
       <?php endif; ?>
 
@@ -482,7 +488,7 @@ $allowed_iframe = array(
               </a>
             <?php endif; ?>
           <?php else : ?>
-            <a class="expert-contact__cta" href="#">Profil erweitern</a>
+            <a class="expert-contact__cta" href="<?php echo esc_url( zeen_child_get_claim_url() ); ?>">Profil erweitern</a>
           <?php endif; ?>
         </div>
       </div>

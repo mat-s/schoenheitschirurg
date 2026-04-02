@@ -313,7 +313,7 @@ $avatar_placeholder_url = zeen_child_experte_placeholder_url( 'expert-avatar-pla
 						}
 
 						$badge_text = $is_klinik ? __( 'Verifizierte Klinik', 'zeen-child' ) : __( 'Verifizierter Facharzt', 'zeen-child' );
-						$claim_cta_url = get_permalink( $experte_id );
+						$claim_cta_url = zeen_child_get_claim_url( get_permalink( $experte_id ) );
 
 						$card_classes = 'experte-card';
 						$card_classes .= $is_premium ? ' experte-card--premium' : ' experte-card--basic';
@@ -354,24 +354,24 @@ $avatar_placeholder_url = zeen_child_experte_placeholder_url( 'expert-avatar-pla
 									<?php if ( $is_premium ) : ?>
 										<div class="experte-card__badge"><?php echo esc_html( $badge_text ); ?></div>
 									<?php endif; ?>
-
-									<div class="experte-card__tags">
-										<?php
-										if ( is_array( $eingriff_terms ) && ! empty( $eingriff_terms ) ) {
-											$tag_count = 0;
-											foreach ( $eingriff_terms as $term ) {
-												if ( $tag_count >= 3 ) {
-													break;
-												}
-												$tag_count++;
-												$term_link = get_term_link( $term, 'eingriff' );
-											echo '<a href="' . esc_url( $term_link ) . '" class="experte-card__tag" onclick="event.stopPropagation()">' . esc_html( $term->name ) . '</a>';
-											}
-										}
-										?>
-									</div>
 								</div>
 							</a>
+
+							<div class="experte-card__tags">
+								<?php
+								if ( is_array( $eingriff_terms ) && ! empty( $eingriff_terms ) ) {
+									$tag_count = 0;
+									foreach ( $eingriff_terms as $term ) {
+										if ( $tag_count >= 3 ) {
+											break;
+										}
+										$tag_count++;
+										$term_link = get_term_link( $term, 'eingriff' );
+										echo '<a href="' . esc_url( $term_link ) . '" class="experte-card__tag">' . esc_html( $term->name ) . '</a>';
+									}
+								}
+								?>
+							</div>
 							<?php if ( ! $is_premium ) : ?>
 								<a class="experte-card__claim-cta" href="<?php echo esc_url( $claim_cta_url ); ?>"><?php esc_html_e( 'Profil erweitern', 'zeen-child' ); ?></a>
 							<?php endif; ?>
